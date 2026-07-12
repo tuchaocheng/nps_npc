@@ -1,0 +1,364 @@
+#!/usr/bin/env bash
+set -e
+# enable debug mode if desired
+if [[ "${DEBUG}" == "true" ]]; then
+    set -x
+    sleep 3333333
+fi
+
+#all_set
+service_type=npc
+service_type=nps
+service_host=
+service_vkey=
+service_nps_conn_port=8024
+
+#service_nps
+nps_http_port=80
+nps_https_port=443
+nps_web_user=admin
+nps_web_password=admin
+nps_web_port=18080
+nps_web_host=
+nps_conf=
+
+#service_npc
+nps_conn_port=
+nps_conn_vkey=
+nps_conn_host=
+nps_conn_conf=
+
+
+#############################
+    
+    nps_start(){
+
+      sleep 22222
+    }
+    npc_start(){
+
+     sleep 22222
+    }
+    usage(){
+     sleep 22222
+    }
+
+
+  #sleep 88888
+  if [[ $service_type == "nps" ]];then
+    echo -e $INFO "将使用${gree} grub ${colourless}类型引导文件安装系统"
+    nps_start
+    
+  elif [[ $service_type == "npc" ]];then
+    echo -e $INFO "将使用默认${gree} iPXE ${colourless}类型引导文件安装系统"
+    npc_start
+  else
+    usage
+  fi
+
+
+
+#字体颜色
+#red="\033[31m"       #红色
+#gree="\033[32m"      #绿色
+#yellow="\033[33m"    #黄色
+#blue="\033[34m"    #蓝色
+#purple="\033[35m"    #紫色
+#Cyan="\033[36m"      #青色
+#white="\033[37m"     #白色
+#colourless="\033[0m" #无色
+#ERROR="${red}[错误]${colourless}"
+#INFO="${gree}[信息]${colourless}"
+#WRINNING="${yellow}[注意]${colourless}"
+#RED="${red}###${colourless}"
+#default_ks_color="${gree}default.ks${colourless}"
+#  sleep 1
+#  echo -e "\033[32m###################################################################################################\033[0m"
+#  echo -e "$WRINNING 此镜像为: iPXE & GRUB 二合一版本,可通过${gree} -e install=ipxe/grub ${colourless}指定引导文件 "
+#  echo -e "$WRINNING 此镜像目前支持:"
+#  echo -e "[${gree}CentOS7,8${colourless}][${gree}OpenEuler21,22,23,24${colourless}][${gree}Anolis8${colourless}][${gree}Rocky8,9${colourless}][${gree}AlmaLinux8,9${colourless}]"
+#  echo -e "$WRINNING 暂不支持[${red}Ubuntu${colourless}]和[${red}Debian${colourless}]"
+#  echo -e $INFO "后续有望支持Vmware ESXi6,7,8 "
+#  sleep 3
+#  echo -e $INFO "复制[ipxe_x86.efi][grubx86.efi],[grubaa64.efi/ipxe_arm.efi]等文件到/var/lib/tftpboot/目录下"
+#  /bin/cp -r /opt/*       /var/lib/tftpboot/
+#  echo -e $INFO "复制dhcpd.conf模板文件到/etc/dhcp/目录下"
+#  #/bin/cp -r /dhcpd.conf   /etc/dhcp/dhcpd.conf
+#  echo -e $INFO "修改/etc/dhcp/dhcpd.conf"
+#  echo -e $WRINNING "建议将dhcp目录挂载到宿主机目录上,方便随时修改"
+### choose grub or ipxe
+#  if [[ $install == "grub" ]];then
+#    /bin/cp /dhcpd_grub.conf  /etc/dhcp/dhcpd.conf
+#    echo -e $INFO "将使用${gree} grub ${colourless}类型引导文件安装系统"
+#  else
+#    /bin/cp /dhcpd_ipxe.conf  /etc/dhcp/dhcpd.conf
+#    echo -e $INFO "将使用默认${gree} iPXE ${colourless}类型引导文件安装系统"
+#  fi
+#  #####set next_ip
+#  if [ ! -z $IP_next_ip ];then
+#    sed -i "s/1.1.1.2/$IP_next_ip/g"   /etc/dhcp/dhcpd.conf
+#  else
+#    echo -e $ERROR "No set ip "  >> /var/log/pxe.log
+#  fi
+#  #####set gateway
+#  if [ ! -z $IP_gateway ];then
+#    sed -i "s/1.1.1.1/$IP_gateway/g"   /etc/dhcp/dhcpd.conf
+#  else
+#    echo -e $ERROR "No set gateway "  >> /var/log/pxe.log
+#  fi
+#
+#  #####set subnet
+#  if [ ! -z $IP_subnet ];then
+#    sed -i "s/1.1.1.0/$IP_subnet/g"   /etc/dhcp/dhcpd.conf
+#  else
+#    echo -e $ERROR "No set subnet "  >> /var/log/pxe.log
+#  fi
+#
+#  #####set netmask
+#  if [ ! -z $IP_netmask ];then
+#    sed -i "s/255.255.255.255/$IP_netmask/g"   /etc/dhcp/dhcpd.conf
+#  else
+#    echo -e $ERROR "No set netmask "  >> /var/log/pxe.log
+#  fi
+#
+#  #####set netmask
+#  if [ ! -z $IP_nameserver ];then
+#    sed -i "s/114.114.114.114/$IP_nameserver/g"   /etc/dhcp/dhcpd.conf
+#  else
+#    echo -e $ERROR "No set nameserver "  >> /var/log/pxe.log
+#  fi
+#
+#
+#  #####set range_start
+#  if [ ! -z $IP_range_start ];then
+#    sed -i "s#9.9.9.10#$IP_range_start#g"   /etc/dhcp/dhcpd.conf
+#  else
+#    echo -e $ERROR "No set ip_range_start "  >> /var/log/pxe.log
+#  fi
+#  
+#  #####set range_end
+#  if [ ! -z $IP_range_end ];then
+#    sed -i "s#9.9.9.20#$IP_range_end#g"   /etc/dhcp/dhcpd.conf
+#  else
+#    echo -e $ERROR "No set ip_range_end "   >> /var/log/pxe.log
+#  fi
+#
+#  
+#  
+#  echo -e  $INFO "设置WEB[Nginx]目录和KS文件"
+#  
+#  ####web & tftpboot dir
+#  path_name_sha512=$(openssl dgst -sha512  /$iso_path/*.iso  |awk -F "= " '{print $2}'|cut -c 1-7)
+#  #[ -d /var/www/html/$path_name_sha512 ] ||  mkdir /var/www/html/$path_name_sha512 &>/dev/null
+#  #[ -d /var/lib/tftpboot/$path_name_sha512 ] || mkdir /var/lib/tftpboot/$path_name_sha512 &>/dev/null
+#  [ -d /var/lib/tftpboot/$path_name_sha512 ] || mkdir /var/lib/tftpboot/$path_name_sha512 &>/dev/null
+##
+#  ####mount
+#  echo -e  $INFO "将/iso目录下的ISO解压到容器/mnt目录"
+#  ln -s  $iso_path  /ISO/  &>/dev/null
+#  echo -e "$INFO $Cyan开始解压镜像... $colourless "
+#  echo -e "$blue"
+#  xorriso -osirrox on -indev $iso_path/*.iso -extract / /mnt
+#  echo -e "$colourless"
+#  echo -e "$INFO $Cyan镜像解压完成 $colourless"
+##
+##  #check repo
+#  #dir_repo=/mnt/Packages
+#  #
+#  #if [[ -d $dir_repo  ]];then
+#  #   echo -e "$INFO ISO(镜像一级目录包含) -> \033[36mPackages\033[0m "
+#      ks_url_repo="url --url=http://$IP_next_ip/$path_name_sha512/"
+#  #else
+#  #     if [ -d /mnt/BaseOS/Packages  &>/dev/null ] ;then
+#  #        echo  -e "$INFO ISO(一级目录 \033[33m[BaseOS]\033[0m 下 ) -> \033[36mPackages\033[0m "
+#  #        ks_url_repo="url --url=http://$IP_next_ip/$path_name_sha512/BaseOS"
+#  #        ks_url_repo_name="repo --name=BaseOS --baseurl=http://$IP_next_ip/$path_name_sha512/BaseOS"
+#  #     else
+#  #        echo -e "$ERROR 镜像目录下没有Packages或BaseOS仓库目录,请手动检测镜像是否正确"
+#  #        exit
+#  #     fi
+#  #fi
+##   
+##  ####
+#  echo -e $WRINNING  "下面获取的 url[repo]路径 非常重要,后续在自定义的KS文件中使用"
+#  echo -e "\033[31m########################ks file url################################ \033[0m"
+#  echo -e "\033[36m $ks_url_repo \033[0m"
+#  #echo -e "\033[36m $ks_url_repo_name  \033[0m"      
+#  echo "url --url=http://$IP_next_ip/$path_name_sha512/"  >>/var/log/pxe.log
+#  #echo "$ks_url_repo_name "  >>/var/log/pxe.log
+#  echo -e "\033[31m########################ks file url################################ \033[0m"
+#  echo -e  $INFO "已将url信息存入容器的/var/log/pxe.log文件中"
+#  echo -e  $INFO  "将/mnt目录下的引导文件复制到/var/lib/tftpboot/$path_name_sha512目录下"
+#  vmlinuz_=$(ls /mnt/images/pxeboot/ |grep vmlinuz |wc -l)
+#    if [ $vmlinuz_ -eq 1 ];then
+#	    iso_vmlinuz_path=$(find /mnt/images/*  -name  vmlinuz* -type f ) 
+#    else
+#            #!/bin/bash
+#	    echo -e  "$WRINNING 检测有多个vmlinuz文件"
+#            # 初始化变量：保存最高版本文件名
+#            highest_vmlinuz=""
+#            
+#            # 遍历当前目录下所有 vmlinuz- 开头的文件
+#            for kernel_file in /mnt/images/pxeboot/vmlinuz-*; do
+#                # 第一次循环，直接赋值
+#                if [ -z "$highest_vmlinuz" ]; then
+#                    highest_vmlinuz="$kernel_file"
+#                else
+#                    # 版本比较：当前文件 > 最高版本，则替换
+#                    if printf "%s\n%s\n" "$kernel_file" "$highest_vmlinuz" | sort -V | tail -n1 | grep -q "^$kernel_file$"; then
+#                        highest_vmlinuz="$kernel_file"
+#                        highest_vmlinuz_name=$(basename $highest_vmlinuz)
+#                    fi
+#                fi
+#            done
+#            iso_vmlinuz_path=$highest_vmlinuz
+#            echo  -e "$INFO \033[32m✅ \033[0m 已设置使用版本最高的内核:\033[34m $highest_vmlinuz_name \033[0m"
+#    fi
+##            
+#    initrd_=$(ls /mnt/images/pxeboot/ |grep initrd |wc -l)
+#    if [ $initrd_ -eq 1 ];then
+#	    iso_initrd_path=$(find /mnt/images/*  -name  initrd*.img -type f )
+#    else
+#            #!/bin/bash
+#	    echo -e "$WRINNING 检测有多个initrd文件"
+#            # 初始化变量：保存最高版本文件名
+#            highest_initrd=""
+#            
+#            # 遍历当前目录下所有 vmlinuz- 开头的文件
+#            for initrd_file in /mnt/images/pxeboot/initrd-*.img ; do
+#                # 第一次循环，直接赋值
+#                if [ -z "$highest_initrd" ]; then
+#                    highest_initrd="$initrd_file"
+#                else
+#                    # 版本比较：当前文件 > 最高版本，则替换
+#                    if printf "%s\n%s\n" "$initrd_file" "$highest_initrd" | sort -V | tail -n1 | grep -q "^$initrd_file$"; then
+#                        highest_initrd="$initrd_file"
+#                        highest_initrd_name=$(basename $highest_initrd)
+#                    fi
+#                fi
+#            done
+#            iso_initrd_path=$highest_initrd
+#            echo  -e "$INFO \033[32m✅ \033[0m 已设置使用版本最高的内核:\033[34m $highest_initrd_name \033[0m "
+#    fi
+#
+#  /bin/cp  -r  $iso_vmlinuz_path  /var/lib/tftpboot/$path_name_sha512/vmlinuz
+#  /bin/cp  -r  $iso_initrd_path   /var/lib/tftpboot/$path_name_sha512/initrd.img
+#  /bin/cp  -r  /mnt/.             /var/lib/tftpboot/$path_name_sha512
+#  /bin/cp  /autoexec.ipxe         /var/lib/tftpboot/autoexec.ipxe
+##
+#
+##  #### sed  grub.cfg & autoexec.ipxe
+##    
+##  #####set default_ip
+#  if [ ! -z $IP_local_ip ];then
+#    sed -i "s/default_ip/$IP_local_ip/g"   /var/lib/tftpboot/grub.cfg
+#    sed -i "s/next_ip/$IP_local_ip/g"   /var/lib/tftpboot/autoexec.ipxe
+#  else
+#    echo "No set web_IP "   >> /var/log/pxe.log
+#  fi
+##  
+#  #####set iso_label
+#  if [ ! -z $iso_label ];then
+#    sed -i "s/default_label/$iso_label/g"   /var/lib/tftpboot/grub.cfg
+#    sed -i "s/label_name/$iso_label/g"   /var/lib/tftpboot/autoexec.ipxe
+#    echo -e "$INFO 引导菜单Label: \033[34m $iso_label \033[0m"
+#  else
+#    xorriso -indev /iso/path.iso  &> /tmp/volume.txt 
+#    volume_name=$(grep Volume /tmp/volume.txt |awk -F ": '" '{print $2}' |awk -F  "'" '{print $1}')
+#    echo -e "$WRINNING 未设置引导菜单的Label name ,将使用镜像默认ID"
+#    sed -i "s/default_label/$volume_name/g"   /var/lib/tftpboot/grub.cfg
+#    sed -i "s/label_name/$volume_name/g"   /var/lib/tftpboot/autoexec.ipxe
+#    echo -e "$INFO 引导菜单Label: \033[34m $volume_name \033[0m"
+#    rm -rf /tmp/volume.txt 
+#  fi
+##  #####set iso_path_grub.cfg
+#  iso_path_md=$path_name_sha512
+#  if [ ! -z $iso_path_md ];then
+#    sed -i "s/iso_path/$iso_path_md/g"      /var/lib/tftpboot/grub.cfg
+#    sed -i "s/sha256_path/$iso_path_md/g"   /var/lib/tftpboot/autoexec.ipxe
+#  else
+#    echo "No set  web_iso_path "  >> /var/log/pxe.log
+#  fi
+##  
+#  ####check kernel-core
+#  kernel_list=$(find "/mnt" -type f -name "kernel*.rpm" 2>/dev/null \
+#    | grep -E 'kernel(-core)?-[0-9]' \
+#    | sort -V)
+#
+#  # 统计数量
+#  count=$(echo "$kernel_list" | wc -l)
+#  if [ "$count" -eq 0 ]; then
+#    echo -e "$ERROE \️️0️33[31m⚠️  \033[0m 该镜像未找到内核文件"
+#    exit
+#  # 提示数量
+#  elif [ "$count" -eq 1 ]; then
+#    echo -e "$INFO \033[32mℹ️ \033[0m 该镜像仅一个内核版本"
+#  else
+#     echo -e "$WRINNING 检测有多个kernel版本"
+#     kernel=$(find "/mnt" -name "kernel-[0-9]*.rpm" 2>/dev/null | sort -V | tail -1)
+#  if [ -n "$kernel" ]; then
+#    kernel_name=$(basename "$kernel" .rpm)
+#  else
+#    # ----------------------
+#    # 第二步：找不到，再找 kernel-core-版本
+#    # ----------------------
+#    echo "⚠️  没有纯 kernel，查找 kernel-core"
+#    kernel=$(find "$dir" -name "kernel-core-[0-9]*.rpm" 2>/dev/null | sort -V | tail -1)
+#    kernel_name=$(basename "$kernel" .rpm)
+#    echo -e $INFO "\033[32m ✅ \033[0m 使用 kernel-core：$kernel_name"
+#  fi
+#
+#    echo -e $INFO "\033[32m✅ \033[0m 选用最高内核版本: \033[34m $kernel_name \033[0m"
+#  
+#  fi
+#  rm -rf /mnt/*
+#  rm -rf /ISO/*.iso
+#  rm -rf /opt/*   /var/lib/tftpboot/tftp.sh /var/lib/tftpboot/ks.cfg  /autoexec.ipxe /afs 
+##
+#  #####set  default.ks
+#  echo -e  $INFO "生成默认KS文件,唯一引导安装文件名称: [$default_ks_color]"
+#  echo -e  $INFO "复制默认文件$default_ks_color到/var/lib/tftpboot/$path_name_sha512/目录下"
+#  if [ ! -z $ks ];then
+#    sed -i "s/default.ks/$ks/g"   /var/lib/tftpboot/grub.cfg
+#  else
+#    echo "No set default.ks " >> /var/log/pxe.log
+#    #/bin/cp /default.ks  /var/lib/tftpboot/$path_name_sha512/default.ks
+#    #/bin/cp /default.ks-bak  /var/lib/tftpboot/$path_name_sha512/default.ks-bak
+#    #sed  -i "/--url=/a\ $ks_url_repo"   /var/lib/tftpboot/$path_name_sha512/{default.ks,default.ks-bak}
+#    #sed  -i '/iso_path/d'               /var/lib/tftpboot/$path_name_sha512/{default.ks,default.ks-bak} 
+#    #sed  -i "/--url=/a\ $ks_url_repo_name"   /var/lib/tftpboot/$path_name_sha512/{default.ks,default.ks-bak}
+#    #sed -i "s/next_ip/$IP_next_ip/g"         /var/lib/tftpboot/$path_name_sha512/{default.ks,default.ks-bak}
+#    #sed -i "s/sha256/$path_name_sha512/g"    /var/lib/tftpboot/$path_name_sha512/{default.ks,default.ks-bak}
+#    #sed  -i "/^@core/a\ $kernel_name"   /var/lib/tftpboot/$path_name_sha512/{default.ks,default.ks-bak}
+#    /bin/cp /default.ks  /var/lib/tftpboot/default.ks
+#    /bin/cp /default.ks-bak  /var/lib/tftpboot/default.ks-bak
+#    sed  -i "/--url=/a\ $ks_url_repo"   /var/lib/tftpboot/{default.ks,default.ks-bak}
+#    sed  -i '/iso_path/d'               /var/lib/tftpboot/{default.ks,default.ks-bak} 
+#    sed  -i "/--url=/a\ $ks_url_repo_name"   /var/lib/tftpboot/{default.ks,default.ks-bak}
+#    sed -i "s/next_ip/$IP_next_ip/g"         /var/lib/tftpboot/{default.ks,default.ks-bak}
+#    sed -i "s/sha256/$path_name_sha512/g"    /var/lib/tftpboot/{default.ks,default.ks-bak}
+#    sed  -i "/^@core/a\ $kernel_name"   /var/lib/tftpboot/{default.ks,default.ks-bak}
+#    echo -e $WRINNING  "默认文件$default_ks_color复制完成,后续可自行修改文件内容或重新编辑新内容" 
+#  fi
+##
+#    #sed -i '/mysqladmin/d' /entrypoint.sh
+#    #cp /entrypoint.sh   /tmp/entrypoint.sh-bak
+#    echo -e "\033[32m ######################################################################### \033[0m"
+#    echo -e "$RED 环境配置完成,自定义KS文件可能无法满足生产环境需求                    $RED"
+#    echo -e "$RED 建议修改$default_ks_color文件内容，让其可以在生产环境中运用                 $RED"
+#    #echo -e "$RED $default_ks_color文件路径:/var/lib/tftpboot/$path_name_sha512/default.ks              $RED"
+#    echo -e "$RED $default_ks_color文件路径:/var/lib/tftpboot/default.ks                      $RED"
+#    echo -e "\033[32m ######################################################################### \033[0m"
+#    sed -i '8,316d' /entrypoint.sh
+#
+#
+#
+#bash /start.sh
+#sleep 3
+#  echo -e "\033[32m###################################################################################################\033[0m"
+#    echo -e "$INFO \033[34m[PXE环境]NGINX&TFTP&DHCP启动完成 \033[0m \033[32m[crtl+c]\033[0m退出运行日志 "
+#  echo -e "\033[32m###################################################################################################\033[0m"
+#  echo 
+#tail -f /var/run/dhcpd/dhcpd.leases
+
+#sleep 1000000000000000
